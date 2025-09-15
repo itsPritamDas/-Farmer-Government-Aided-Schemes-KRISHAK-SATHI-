@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KRISHAK SATHI | Crop Details</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f9f4;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #2e7d32;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+    .header button {
+      background: white;
+      color: #2e7d32;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+    .header button:hover {
+      background: #1b5e20;
+      color: white;
+    }
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 100px auto 20px auto; /* margin-top added to offset the fixed header */
+      padding: 20px;
+    }
+    .crop-list-heading {
+      font-size: 1.4em;
+      color: #2e7d32;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #2e7d32;
+      padding-bottom: 5px;
+    }
+    .crop-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: transform 0.2s;
+    }
+    .crop-card:hover {
+      transform: scale(1.02);
+    }
+    .crop-name {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #1b5e20;
+      margin-bottom: 8px;
+    }
+    .crop-detail {
+      margin: 5px 0;
+      font-size: 0.95em;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🌾 KRISHAK SATHI</h1>
+    <button onclick="window.location.href='user.html'">⬅ Back</button>
+  </div>
+
+  <div class="container">
+    <div class="crop-list-heading">Crop Details</div>
+    <div id="cropList"></div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+  <script>
+    const cropList = document.getElementById("cropList");
+    db.collection("crops").onSnapshot(snapshot => {
+      cropList.innerHTML = "";
+      snapshot.forEach(doc => {
+        let crop = doc.data();
+
+        let card = document.createElement("div");
+        card.className = "crop-card";
+
+        card.innerHTML = `
+          <div class="crop-name">🌱 ${crop.cropName}</div>
+          <div class="crop-detail"><strong>Season:</strong> ${crop.season}</div>
+          <div class="crop-detail"><strong>Pesticide:</strong> ${crop.pesticide}</div>
+        `;
+
+        cropList.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>

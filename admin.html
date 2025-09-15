@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | KRISHAK SATHI</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo" style="height:50px; margin-right:10px;">
+    <h1>🌾 KRISHAK SATHI | Admin Dashboard</h1>
+     <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </header>
+
+  <main>
+    <!-- Add Crops -->
+    <section>
+      <h2>Add Crop</h2>
+      <form id="cropForm">
+        <input type="text" id="cropName" placeholder="Crop Name" required>
+        <input type="text" id="season" placeholder="Season" required>
+        <input type="text" id="pesticide" placeholder="Pesticide/Insecticide" required>
+        <button type="submit">Add Crop</button>
+      </form>
+    </section>
+
+    <!-- Add Schemes -->
+    <section>
+      <h2>Add Scheme</h2>
+      <form id="schemeForm">
+        <input type="text" id="schemeName" placeholder="Scheme Name" required>
+        <input type="text" id="benefit" placeholder="Benefit Details" required>
+        <button type="submit">Add Scheme</button>
+      </form>
+    </section>
+
+    <!-- Approve Applications -->
+    <section>
+      <h2>Approve / Reject Applications</h2>
+      <ul id="applicationsList"></ul>
+    </section>    
+  </main>
+
+  <!-- JS -->
+  <script src="auth.js"></script>
+  <script src="admin.js"></script>
+
+  <!-- Protect Page -->
+  <script>
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "index.html";
+      } else {
+        db.collection("users").doc(user.uid).get().then(doc => {
+          if (doc.exists && doc.data().role !== "admin") {
+            window.location.href = "user.html";
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+/* ================= Global Reset ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= Body Background ================= */
+body {
+  min-height: 100vh; /* Allow body to expand with content */
+  width: 100%;
+  background-image: url('crop.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: Arial, sans-serif;
+  color: #000;
+  overflow-y: auto; /* Allows scrolling if  overflows */
+}
+
+/* ================= Login & Register Page Layout ================= */
+body.login-page,
+body.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom right, #56ab2f, #a8e063);
+}
+
+/* ================= Container (Login & Register) ================= */
+.container {
+  width: 380px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fadeIn 0.8s ease-in-out;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* ================= Headings ================= */
+.container h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #2e7d32;
+}
+
+.container h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #388e3c;
+}
+
+/* ================= Form Inputs ================= */
+form input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+form input:focus {
+  border-color: #66bb6a;
+  box-shadow: 0 0 8px rgba(102, 187, 106, 0.4);
+}
+
+/* ================= Form Buttons ================= */
+form button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  background: linear-gradient(to right, #56ab2f, #a8e063);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+form button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #76b852, #8DC26F);
+}
+
+/* ================= Links ================= */
+p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+p a {
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+/* ================= Header ================= */
+.header {
+  position: relative;
+}
+.container {
+  width: 90%;
+  max-width: 380px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+
+header h1 {
+  color: #fff;
+  font-size: 26px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+}
+
+.logout-btn {
+  background: #ffffff;
+  color: #2e7d32;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 16px;
+  border: 2px solid #2e7d32;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logout-btn:hover {
+  background: #2e7d32;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* ================= Farmer Section ================= */
+.farmer-section {
+  margin-top: 80px;
+  min-height: calc(100vh - 80px);
+  width: 100%;
+  padding: 20px;
+  overflow-y: auto;
+  background: rgba(255,255,255,0.8);
+}
+
+/* ================= Dashboard Layout ================= */
+.dashboard {
+  width: 95%;
+  max-width: 1100px;
+  margin: 30px auto;
+}
+
+/* ================= Cards ================= */
+.card {
+  background: #fff;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.card h2 {
+  margin-bottom: 15px;
+  color: #2e7d32;
+}
+
+.card form input {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.card form button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  background: linear-gradient(to right, #56ab2f, #a8e063);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.card form button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #76b852, #8DC26F);
+}
+
+/* ================= Lists ================= */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background: #f1f8e9;
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ul li button {
+  padding: 5px 10px;
+  border: none;
+  background: #66bb6a;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+ul li button:hover {
+  background: #43a047;
+}
+
+/* ================= Application Status Button ================= */
+.status-btn {
+  background-color: #2e7d32;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 10px;
+}
+
+.status-btn:hover {
+  background-color: #1b5e20;
+  transform: scale(1.05);
+}
+
+.status-btn:active {
+  transform: scale(0.95);
+}
+
+/* ================= Animation ================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

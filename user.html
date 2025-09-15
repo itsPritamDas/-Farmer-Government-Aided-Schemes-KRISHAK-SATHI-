@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard | KRISHAK SATHI</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f9f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #2e7d32;
+      color: white;
+      padding: 10px 20px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    header img {
+      height: 40px;
+    }
+    header button {
+      background: white;
+      color: #2e7d32;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    header button:hover {
+      background: #e0e0e0;
+    }
+
+    main {
+      width: 90%;
+      max-width: 1100px;
+      margin: 20px auto;
+    }
+    section {
+      margin-bottom: 30px;
+    }
+    h2 {
+      color: #1b5e20;
+      margin-bottom: 12px;
+    }
+
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 15px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 16px;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Crop card */
+    .crop-name {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #2e7d32;
+      margin-bottom: 6px;
+    }
+    .crop-detail {
+      font-size: 0.95em;
+      color: #444;
+      margin: 4px 0;
+    }
+
+    /* Scheme card */
+    .scheme-name {
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #1b5e20;
+      margin-bottom: 8px;
+    }
+    .scheme-detail {
+      font-size: 0.95em;
+      color: #444;
+      margin: 5px 0;
+    }
+    .apply-btn {
+      background: #1b5e20;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .apply-btn:hover {
+      background: #145214;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <img src="logo.png" alt="Logo">
+  <h1>🌾 KRISHAK SATHI | Farmer Dashboard</h1>
+  <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+</header>
+
+
+  <main>
+    <!-- View Crops -->
+    <section>
+      <h2>Crop Details</h2>
+      <div id="cropsList" class="grid"></div>
+    </section>
+
+    <!-- View Schemes & Apply -->
+    <section>
+      <h2>Government Schemes</h2>
+      <div id="schemesList" class="grid"></div>
+    </section>
+
+    <!-- View Application Status -->
+    <section>
+      <h2>My Applications</h2>
+      <button class="status-btn" onclick="window.location.href='status.html'">
+        📄 View Application Status
+      </button>
+    </section>
+  </main>
+
+  <!-- JS -->
+  <script src="auth.js"></script>
+  <script src="user.js"></script>
+
+  <!-- Protect Page -->
+  <script>
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "index.html";
+      } else {
+        db.collection("users").doc(user.uid).get().then(doc => {
+          if (doc.exists && doc.data().role !== "farmer") {
+            window.location.href = "admin.html";
+          }
+        });
+      }
+    });
+
+    // display as cards
+    const cropsList = document.getElementById("cropsList");
+    db.collection("crops").onSnapshot(snapshot => {
+      cropsList.innerHTML = "";
+      snapshot.forEach(doc => {
+        let crop = doc.data();
+        let card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="crop-name">🌱 ${crop.cropName || "Unnamed Crop"}</div>
+          <div class="crop-detail"><strong>Season:</strong> ${crop.season || "N/A"}</div>
+          <div class="crop-detail"><strong>Pesticide:</strong> ${crop.pesticide || "N/A"}</div>
+        `;
+        cropsList.appendChild(card);
+      });
+    });
+
+    // schemes display as cards
+    const schemesList = document.getElementById("schemesList");
+    db.collection("schemes").onSnapshot(snapshot => {
+      schemesList.innerHTML = "";
+      snapshot.forEach(doc => {
+        let scheme = doc.data();
+        let card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="scheme-name">📌 ${scheme.schemeName || "Unnamed Scheme"}</div>
+          <div class="scheme-detail"><strong>Benefit:</strong> ${scheme.benefit || "Not specified"}</div>
+          <div class="scheme-detail"><strong>Eligibility:</strong> ${scheme.eligibility || "Check official guidelines"}</div>
+          <button class="apply-btn" onclick="applyScheme('${doc.id}', '${scheme.schemeName}')">
+    Apply Now
+</button>
+
+        `;
+        schemesList.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>

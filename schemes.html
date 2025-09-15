@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KRISHAK SATHI | Government Schemes</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f9f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 30px auto;
+    }
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+    button {
+      background: #2e7d32;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    button:hover {
+      background: #1b5e20;
+    }
+    #schemeList {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+    }
+    .scheme-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: transform 0.2s;
+    }
+    .scheme-card:hover {
+      transform: translateY(-4px);
+    }
+    .scheme-name {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #1b5e20;
+      margin-bottom: 10px;
+    }
+    .scheme-detail {
+      font-size: 0.95em;
+      color: #444;
+      margin: 6px 0;
+    }
+    .apply-btn {
+      background: #1b5e20;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .apply-btn:hover {
+      background: #145214;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌾 KRISHAK SATHI | Government Schemes</h1>
+    <button onclick="window.location.href='user.html'">⬅ Back to Dashboard</button>
+    <div id="schemeList"></div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+  <script>
+    const schemeList = document.getElementById("schemeList");
+    db.collection("schemes").onSnapshot(snapshot => {
+      schemeList.innerHTML = "";
+      snapshot.forEach(doc => {
+        let scheme = doc.data();
+
+        let card = document.createElement("div");
+        card.className = "scheme-card";
+        card.innerHTML = `
+          <div class="scheme-name">📌 ${scheme.schemeName || "Unnamed Scheme"}</div>
+          <div class="scheme-detail"><strong>Benefit:</strong> ${scheme.benefit || "Not specified"}</div>
+          <div class="scheme-detail"><strong>Eligibility:</strong> ${scheme.eligibility || "Check official guidelines"}</div>
+          <button class="apply-btn" onclick="window.location.href='apply.html?scheme=${encodeURIComponent(scheme.schemeName)}'">
+            Apply Now
+          </button>
+        `;
+
+        schemeList.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>

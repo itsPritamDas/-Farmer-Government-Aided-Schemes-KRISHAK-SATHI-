@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Application Status | KRISHAK SATHI</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="firebase.js"></script>
+</head>
+<body>
+
+  <header>
+    <div style="display: flex; align-items: center;">
+      <img src="logo.png" alt="Logo" style="height:50px; margin-right:10px;" />
+      <h1>🌾 KRISHAK SATHI | My Applications</h1>
+    </div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </header>
+
+  <main style="padding-top: 80px;">
+    <section class="dashboard">
+      <h2>My Scheme Applications</h2>
+      <ul id="statusList"></ul>
+    </section>
+  </main>
+
+  <!-- JS -->
+  <script src="auth.js"></script>
+  <script>
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "index.html"; // Not logged in
+      } else {
+        db.collection("users").doc(user.uid).get().then(doc => {
+          if (doc.exists && doc.data().role !== "farmer") {
+            window.location.href = "admin.html"; // Redirect if admin
+          }
+        });
+
+        // Farmer's applications
+        db.collection("applications")
+          .where("userId", "==", user.uid)
+          .onSnapshot(snapshot => {
+            const statusList = document.getElementById("statusList");
+            statusList.innerHTML = "";
+            snapshot.forEach(doc => {
+              const app = doc.data();
+              const li = document.createElement("li");
+              li.innerHTML = `
+                <strong>${app.schemeName}</strong>
+                <span style="color:${app.status === 'Approved' ? 'green' : 'orange'};">
+                  Status: ${app.status}
+                </span>
+              `;
+              statusList.appendChild(li);
+            });
+          });
+      }
+    });
+  </script>
+
+</body>
+</html>
