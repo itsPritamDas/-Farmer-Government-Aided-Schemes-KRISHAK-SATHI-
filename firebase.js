@@ -7,11 +7,11 @@ const firebaseConfig = {
   messagingSenderId: "910668154081",
   appId: "1:910668154081:web:5438724ed8e06f99d463a0",
   measurementId: "G-YF5B3DL09E"
+};
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 // Authenticate & Firestore available globally
 const auth = firebase.auth();
 const db = firebase.firestore();
-
 
